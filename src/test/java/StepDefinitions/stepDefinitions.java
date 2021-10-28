@@ -73,6 +73,7 @@ public class stepDefinitions extends BaseClass {
 
     public static sharedatastep sharedata;
 
+
     public stepDefinitions(sharedatastep sharedata) {
 
         stepDefinitions.sharedata = sharedata;
@@ -215,8 +216,8 @@ public class stepDefinitions extends BaseClass {
     public void findPurchaserDetailsWithTin(String tin) throws Throwable {
         twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("GstExemptTaxCertificate:findPurchaser"))).click();
         switchToFrameBackoffice();
-        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("SearchForm:j_idt21"))).click();
-        verify_error_message("At least one field is required");
+//        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("SearchForm:j_idt21"))).click();
+//        verify_error_message("At least one field is required");
         driver.findElement(By.id("SearchForm:accountNumber")).sendKeys(tin);
         twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("SearchForm:j_idt21"))).click();
         Thread.sleep(1000);
@@ -454,6 +455,185 @@ public class stepDefinitions extends BaseClass {
     public void clickSubmitToUpdateFAQ() {
         driver.findElement(By.id("FaqForm:j_idt42")).click();
     }
+
+    @Then("Find tin for tax clearance {string}")
+    public void findTinForTaxClearance(String tin) {
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("TaxClearanceCertificate:FindTin"))).click();
+        switchToFrameBackoffice();
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.id("SearchForm:accountNumber"))).sendKeys(tin);
+        driver.findElement(By.id("SearchForm:j_idt21")).click();
+        switchToDefault();
+
+    }
+
+    @Then("Enter transaction details {string}")
+    public void enterTransactionDetails(String arg0) throws InterruptedException {
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"TaxClearanceCertificate:typeOfTransaction\"]/div[3]"))).click();
+        Thread.sleep(1500);
+        driver.findElement(By.xpath("//li[contains(text(),'" + arg0 + "')]")).click();
+        Thread.sleep(2000);
+        driver.findElement(By.id("TaxClearanceCertificate:descriptionOfTransaction")).sendKeys("Change of ownership of a company.");
+    }
+
+    @Then("Enter period of assessment month {string} and year {string}")
+    public void enterPeriodOfAssessmentMonthAndYear(String month, String year) throws InterruptedException {
+        Thread.sleep(2000);
+        WebElement dateField = driver.findElement(By.id("TaxClearanceCertificate:periodOfAssessment"));
+        dateField.sendKeys(month+year);
+        Thread.sleep(1000);
+
+    }
+
+    @Then("Enter attachment details")
+    public void enterAttachmentDetails() throws InterruptedException {
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"TaxClearanceCertificate:documentType\"]/div[3]")).click();
+        Thread.sleep(1500);
+        driver.findElement(By.xpath("//li[contains(text(),'Application Letter')]")).click();
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        driver.findElement(By.id("TaxClearanceCertificate:documentNameNumber")).sendKeys(String.valueOf(timestamp.getTime()));
+
+        String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "id_doc.png";
+        driver.findElement(By.id("TaxClearanceCertificate:AttachmentPath_input")).sendKeys(path);
+        Thread.sleep(1000);
+        driver.findElement(By.id("TaxClearanceCertificate:notes")).sendKeys("Change of ownership of a company.");
+
+    }
+
+    @Then("Enter details of person making the application")
+    public void enterDetailsOfPersonMakingTheApplication() {
+        driver.findElement(By.id("TaxClearanceCertificate:personName")).sendKeys("Margie Wambui");
+        driver.findElement(By.id("TaxClearanceCertificate:designation")).sendKeys("Engineer");
+
+    }
+
+    @Then("Submit certificate request application")
+    public void submitCertificateRequestApplication() {
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("TaxClearanceCertificate:Submit"))).click();
+    }
+
+    @Then("Obtain Certificate Request ARN {string}")
+    public void obtainCertificateRequestARN(String success) throws InterruptedException {
+        String text  = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'"+success+"')]"))).getText();
+        //Processing Completed - Reference Number - NRA/BOMTO/CR/000009
+        System.out.println(text);
+
+        System.out.println("Certificate Request Case Reference Number is " +text.substring(42));
+        sharedatastep.REF = text.substring(42);
+        Thread.sleep(2000);
+    }
+
+    @Then("find tin for withholding tax excemption {string}")
+    public void findTinForWithholdingTaxExcemption(String tin) {
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.id("WithholdingTaxExemptionCertificate:findTin"))).click();
+        switchToFrameBackoffice();
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.id("SearchForm:accountNumber"))).sendKeys(tin);
+        driver.findElement(By.id("SearchForm:j_idt21")).click();
+        switchToDefault();
+    }
+
+    @Then("fill in witholding tax excemption details")
+    public void fillInWitholdingTaxExcemptionDetails() throws InterruptedException {
+        Thread.sleep(1000);
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"WithholdingTaxExemptionCertificate:natureIncome\"]/div[3]"))).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//li[contains(text(),'Technical fees')]")).click();
+        Thread.sleep(1000);
+        driver.findElement(By.id("WithholdingTaxExemptionCertificate:descNatureIncome")).sendKeys("Technical fees");
+        Thread.sleep(600);
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"WithholdingTaxExemptionCertificate:reason\"]/div[3]"))).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//li[contains(text(),'Bilateral Agreement between Govts')]")).click();
+
+    }
+
+    @Then("Enter attachment details for Withholding Tax Exemption Certificate Application")
+    public void enterAttachmentDetailsForWithholdingTaxExemptionCertificateApplication() throws InterruptedException {
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"WithholdingTaxExemptionCertificate:DocType\"]/div[3]")).click();
+        Thread.sleep(1500);
+        driver.findElement(By.xpath("//li[contains(text(),'Exemption Approval Letter')]")).click();
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        driver.findElement(By.id("WithholdingTaxExemptionCertificate:docReference")).sendKeys(String.valueOf(timestamp.getTime()));
+
+        String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "id_doc.png";
+        driver.findElement(By.id("WithholdingTaxExemptionCertificate:AttachmentPath_input")).sendKeys(path);
+        Thread.sleep(1000);
+        driver.findElement(By.id("WithholdingTaxExemptionCertificate:Notes")).sendKeys("Exemption Approval Letter");
+
+    }
+
+    @Then("Enter details of person making the application for Withholding Tax Exemption Certificate Application")
+    public void enterDetailsOfPersonMakingTheApplicationForWithholdingTaxExemptionCertificateApplication() {
+        driver.findElement(By.id("WithholdingTaxExemptionCertificate:declarantName")).sendKeys("Margie Wambui");
+        driver.findElement(By.id("WithholdingTaxExemptionCertificate:declarantPosition")).sendKeys("Engineer");
+
+    }
+
+    @Then("Submit withholding tax excemption application")
+    public void submitWithholdingTaxExcemptionApplication() {
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("WithholdingTaxExemptionCertificate:submit"))).click();
+    }
+
+    @And("Click on Taxpayer services > Certificate Types > Track request status")
+    public void clickOnTaxpayerServicesCertificateTypesTrackRequestStatus() {
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[span='Taxpayer Services']"))).click();
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[span='Certificate Types']"))).click();
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"sub1\"]/ul/li[3]/a"))).click();
+
+    }
+
+    @Then("Enter ref number")
+    public void enterRefNumber() {
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("TrackRequestStatusForm:trackingNumber"))).sendKeys(sharedatastep.REF);
+        driver.findElement(By.id("TrackRequestStatusForm:j_idt34")).click();
+    }
+
+    @Then("Verify status {string}")
+    public void verifyApproval(String status) {
+        String application_status = twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("TrackRequestStatusForm:status"))).getAttribute("value");
+        Assert.assertEquals(status, application_status);
+    }
+
+    @Given("User navigates to portal")
+    public void userNavigatesToPortal() {
+        driver.get(Pro.getProperty("NRA_Portal_URL"));
+        driver.manage().window().maximize();
+    }
+
+    @Then("Enters the username {string} and password {string} to login to portal")
+    public void entersTheUsernameAndPasswordToLoginToPortal(String username, String password) {
+
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_userName"))).sendKeys(username);
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_password"))).sendKeys(password);
+        driver.findElement(By.id("btnSubmit")).click();
+
+    }
+
+    @And("Navigate to my tax > Certificate request")
+    public void navigateToMyTaxCertificateRequest() throws InterruptedException {
+        onehundred.until(ExpectedConditions.elementToBeClickable(By.id("id_btnMyTax"))).click();
+        Thread.sleep(1500);
+        onehundred.until(ExpectedConditions.elementToBeClickable(By.id("id_btnCertRequest"))).click();
+
+    }
+
+    @Then("Select Certificate type {string}")
+    public void selectCertificateType(String arg0) throws InterruptedException {
+        Thread.sleep(5000);
+        sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]"))).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//li[span='"+arg0+"']")).click();
+
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[2]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]"))).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//li[span='Change of ownership of a company.']")).click();
+        Thread.sleep(1000);
+        driver.findElement(By.id("btnContinue")).click();
+    }
+
 }
 
 
