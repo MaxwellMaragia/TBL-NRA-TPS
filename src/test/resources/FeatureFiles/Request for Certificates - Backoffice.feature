@@ -94,7 +94,7 @@ Feature: [SUC:29-01]-Request For Certificates-BackOffice
     Then Enter ref number
     Then Verify status "Approved"
 
-  @SUC:29-01 @UAT_N_M29_29-01-05 @boom
+  @SUC:29-01 @UAT_N_M29_29-01-05
   Scenario: UAT_N_M29_29-01-05-To verify the process of Compliance Breach and Compliance Check
     And Click on Taxpayer services > Certificate Types > Create certificate request
     Then Click next button

@@ -69,6 +69,7 @@ public class stepDefinitions extends BaseClass {
     public WebDriverWait twohundred;
     public Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     public Actions actions;
+    public JavascriptExecutor jse;
 
 
     public static sharedatastep sharedata;
@@ -87,6 +88,7 @@ public class stepDefinitions extends BaseClass {
         Pro.load(fls);
         driver = BaseClass.getDriver();
         actions = new Actions(driver);
+        jse = (JavascriptExecutor)driver;
         five = new WebDriverWait(driver, 5);
         ten = new WebDriverWait(driver, 10);
         fifteen = new WebDriverWait(driver, 15);
@@ -209,7 +211,7 @@ public class stepDefinitions extends BaseClass {
 
     @Then("Click submit button for GST Excemption")
     public void clickSubmitButtonGST() {
-        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("GstExemptTaxCertificate:submit"))).click();
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.id("GstExemptTaxCertificate:submit"))).click();
     }
 
     @Then("Find purchaser details with tin {string}")
@@ -335,7 +337,7 @@ public class stepDefinitions extends BaseClass {
     @Then("Enter attachment {string}")
     public void enterAttachment(String attachment) throws InterruptedException {
         Thread.sleep(1500);
-        driver.findElement(By.xpath("//*[@id=\"GstExemptTaxCertificate:DocumentType\"]/div[3]")).click();
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"GstExemptTaxCertificate:DocumentType\"]/div[3]"))).click();
         Thread.sleep(1500);
         actions.sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ENTER).perform();
         Thread.sleep(1500);
@@ -614,26 +616,392 @@ public class stepDefinitions extends BaseClass {
 
     @And("Navigate to my tax > Certificate request")
     public void navigateToMyTaxCertificateRequest() throws InterruptedException {
-        onehundred.until(ExpectedConditions.elementToBeClickable(By.id("id_btnMyTax"))).click();
-        Thread.sleep(1500);
-        onehundred.until(ExpectedConditions.elementToBeClickable(By.id("id_btnCertRequest"))).click();
+        WebElement mytax = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnMyTax")));
+        jse.executeScript("arguments[0].click()", mytax);
+        WebElement certRequest =fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnCertRequest")));
+        jse.executeScript("arguments[0].click()", certRequest);
 
     }
 
     @Then("Select Certificate type {string}")
     public void selectCertificateType(String arg0) throws InterruptedException {
-        Thread.sleep(5000);
-        sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]"))).click();
+        Thread.sleep(3000);
+        WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", certDropDown);
         Thread.sleep(1000);
-        driver.findElement(By.xpath("//li[span='"+arg0+"']")).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg0+"']"))).click();
 
-        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[2]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]"))).click();
+        WebElement certcat = twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[2]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", certcat);
         Thread.sleep(1000);
-        driver.findElement(By.xpath("//li[span='Change of ownership of a company.']")).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='Change of ownership of a company.']"))).click();
         Thread.sleep(1000);
         driver.findElement(By.id("btnContinue")).click();
     }
 
+    @Then("Enter tin as {string}")
+    public void enterTinAs(String tin) throws InterruptedException {
+        WebElement tinField = thirty.until(ExpectedConditions.elementToBeClickable(By.id("id_tin")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", tinField);
+        tinField.sendKeys(tin);
+        Thread.sleep(900);
+    }
+
+    @And("Taxpayer name as {string}")
+    public void taxpayerNameAs(String names) throws InterruptedException {
+        WebElement nameField = thirty.until(ExpectedConditions.elementToBeClickable(By.id("id_taxpayerName")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", nameField);
+        nameField.sendKeys(names);
+        Thread.sleep(900);
+    }
+
+    @And("Trading name as {string}")
+    public void tradingNameAs(String tradingName) throws InterruptedException {
+        WebElement tradingNameField = thirty.until(ExpectedConditions.elementToBeClickable(By.id("id_tradingName")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", tradingNameField);
+        tradingNameField.sendKeys(tradingName);
+        Thread.sleep(900);
+    }
+
+    @And("Email as {string}")
+    public void emailAs(String email) throws InterruptedException {
+        WebElement emailField = thirty.until(ExpectedConditions.elementToBeClickable(By.id("id_email")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", emailField);
+        emailField.sendKeys(email);
+        Thread.sleep(900);
+    }
+
+    @And("Contact number as {string}")
+    public void contactNumberAs(String mobile) throws InterruptedException {
+        WebElement mobileField = thirty.until(ExpectedConditions.elementToBeClickable(By.id("id_contactNumber")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", mobileField);
+        mobileField.sendKeys(mobile);
+        Thread.sleep(900);
+    }
+
+    @And("Postal address as {string}")
+    public void postalAddressAs(String address) throws InterruptedException {
+        WebElement addressField = driver.findElement(By.id("id_postalAddress"));
+        jse.executeScript("arguments[0].scrollIntoView(true);", addressField);
+        addressField.sendKeys(address);
+        Thread.sleep(900);
+    }
+
+    @Then("Enter transaction details description {string}")
+    public void enterTransactionDetailsDescription(String desc) throws InterruptedException {
+        driver.findElement(By.id("id_description")).sendKeys(desc);
+        Thread.sleep(900);
+    }
+
+    @Then("Enter assessment date as {string}")
+    public void enterAssessmentDateAs(String date) throws InterruptedException {
+        driver.findElement(By.id("id_assessment")).sendKeys(date);
+        Thread.sleep(900);
+    }
+
+    @Then("Click next to go to attachment details screen")
+    public void clickNextToGoToAttachmentDetailsScreen() {
+        driver.findElement(By.xpath("//*[@id=\"id_tccCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+    }
+
+    @Then("Enter attachment details \\(Portal) {string}")
+    public void enterAttachmentDetailsPortal(String type) throws InterruptedException {
+        WebElement dropdown = sixty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_attachmentForm\"]/div/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", dropdown);
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//li[span='"+type+"']")).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"id_reference\"]")).sendKeys(getRandom(8));
+        Thread.sleep(1000);
+        String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "id_doc.png";
+        driver.findElement(By.xpath("//*[@id=\"id_fileChoose\"]/div/div[2]/div/div/div[1]/span/input")).sendKeys(path);
+        Thread.sleep(1000);
+        driver.findElement(By.id("id_notes")).sendKeys("Notes "+getRandom(5));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"id_tccCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+    }
+
+    @Then("Submit portal Tax Clearance Certificate Application")
+    public void submitPortalTaxClearanceCertificateApplication() {
+        WebElement submit = onehundred.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_tccCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")));
+        jse.executeScript("arguments[0].click()", submit);
+    }
+
+    @Then("Verify portal success message {string}")
+    public void verifyPortalSuccessMessage(String success) {
+        WebElement message = twohundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + success + "')]")));
+        Assert.assertTrue(message.isDisplayed());
+    }
+
+
+    @Then("Obtain Tax Clearance ref number {string}")
+    public void obtainTaxClearanceRefNumber(String success) throws InterruptedException {
+        String message = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + success + "')]"))).getText();
+        //Your TCC Certificate request has been submitted successfully. Your reference number is: NRA/BOMTO/CR/000624
+
+        System.out.println(message);
+
+        System.out.println("Certificate Request Case Reference Number is " +message.substring(88));
+        sharedatastep.PortalREF = message.substring(88);
+        Thread.sleep(1000);
+    }
+
+    @Then("Navigate to my tax > View Certificate Request Status")
+    public void navigateToMyTaxViewCertificateRequestStatus() {
+        WebElement mytax = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnMyTax")));
+        jse.executeScript("arguments[0].click()", mytax);
+        WebElement certRequest =fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnCertRequestStatus")));
+        jse.executeScript("arguments[0].click()", certRequest);
+    }
+
+    @Then("Enter request number")
+    public void enterRequestNumber() throws InterruptedException {
+        WebElement requestNumberField = sixty.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_RequestNumber")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", requestNumberField);
+        requestNumberField.sendKeys(sharedatastep.PortalREF);
+        Thread.sleep(900);
+        driver.findElement(By.id("btnSubmit")).click();
+    }
+
+    @Then("Verify case request status {string}")
+    public void verifyCaseRequestStatus(String status) {
+        String application_status = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_ApplicationStatus"))).getAttribute("value");
+        Assert.assertEquals(status, application_status);
+    }
+
+    @And("Navigate to my support > FAQ")
+    public void navigateToMySupportFAQ() {
+        WebElement support = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnSupportToggle")));
+        jse.executeScript("arguments[0].click()", support);
+        WebElement faq =fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_linkFaq")));
+        jse.executeScript("arguments[0].click()", faq);
+    }
+
+    @Then("Verify all FAQ categories are displayed")
+    public void verifyAllFAQCategoriesAreDisplayed() {
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Exemptions')]"))).isDisplayed();
+        ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'General')]"))).isDisplayed();
+        ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Objections and Appeals')]"))).isDisplayed();
+        ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Payments')]"))).isDisplayed();
+        ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Portal')]"))).isDisplayed();
+        ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Refunds')]"))).isDisplayed();
+        ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Registration')]"))).isDisplayed();
+        ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Tax Returns')]"))).isDisplayed();
+    }
+
+    @Then("Search for invalid faq")
+    public void searchForInvalidFaq() throws InterruptedException {
+        WebElement faqField = sixty.until(ExpectedConditions.visibilityOfElementLocated(By.id("id_searchKey")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", faqField);
+        faqField.sendKeys("type 75 sph");
+        Thread.sleep(900);
+        ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'No documents were found matching the search criteria')]"))).isDisplayed();
+        System.out.println("Invalid faq specified");
+    }
+
+    @Then("Search for valid faq")
+    public void searchForValidFaq() {
+        driver.findElement(By.id("id_searchKey")).clear();
+        driver.findElement(By.id("id_searchKey")).sendKeys("How to file returns for grX8SW Taxtype");
+
+        //driver.findElement(By.id("id_searchKey")).sendKeys(sharedatastep.FAQ);
+        driver.findElement(By.xpath("//*[@id=\"id_faqsWidget\"]/div/div[1]/div[3]/a/i")).click();
+        ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'How to file returns for grX8SW Taxtype')]"))).isDisplayed();
+        //ten.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'"+sharedatastep.FAQ+"')]"))).isDisplayed();
+        System.out.println("Faq is valid");
+    }
+
+    @Then("Select GST Exempt Tax Certificate Application certificate {string}")
+    public void selectGSTExemptTaxCertificateApplicationCertificate(String cert) throws InterruptedException {
+        Thread.sleep(3000);
+        WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", certDropDown);
+        Thread.sleep(1000);
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+cert+"']"))).click();
+        Thread.sleep(1000);
+        driver.findElement(By.id("btnContinue")).click();
+    }
+
+    @Then("Enter purchaser tin {string} name {string} and address {string}")
+    public void enterPurchaserTinNameAndAddress(String tin, String name, String address) throws InterruptedException {
+        WebElement tinField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_purchaserTin")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", tinField);
+        tinField.sendKeys(tin);
+        Thread.sleep(900);
+
+        WebElement nameField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_purchaserName")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", nameField);
+        nameField.sendKeys(name);
+        Thread.sleep(900);
+
+        WebElement addressField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_purchaserAddress")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", addressField);
+        addressField.sendKeys(address);
+        Thread.sleep(900);
+    }
+
+
+    @Then("Enter supplier tin {string} name {string} and address {string}")
+    public void enterSupplierTinNameAndAddress(String tin, String name, String address) throws InterruptedException {
+        WebElement tinField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_supplierTin")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", tinField);
+        tinField.sendKeys(tin);
+        Thread.sleep(900);
+
+        WebElement nameField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_supplierName")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", nameField);
+        nameField.sendKeys(name);
+        Thread.sleep(900);
+
+        WebElement addressField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_supplierAddress")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", addressField);
+        addressField.sendKeys(address);
+        Thread.sleep(900);
+    }
+
+    @Then("Proceed to GST screen")
+    public void proceedToGSTScreen() {
+        driver.findElement(By.xpath("//*[@id=\"id_vat5_certificateForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+    }
+
+    @Then("Upload GST CSV template")
+    public void uploadGSTCSVTemplate() throws InterruptedException {
+        String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "GSTCERTIFICATE.csv";
+        driver.findElement(By.xpath("//*[@id=\"id_fileChoose\"]/span/span/div/input")).sendKeys(path);
+        Thread.sleep(1000);
+        thirty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//p[contains(text(),'File uploaded successfully.')]"))).isDisplayed();
+        Thread.sleep(5000);
+    }
+
+    @Then("Enter GST Excempt project number")
+    public void enterGSTExcemptProjectNumber() throws InterruptedException {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        WebElement excemptProjectNumberField = ten.until(ExpectedConditions.elementToBeClickable(By.id("id_vatFreeProjectNum")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", excemptProjectNumberField);
+        excemptProjectNumberField.sendKeys(String.valueOf(timestamp.getTime()));
+        Thread.sleep(900);
+    }
+
+    @Then("Enter custom procedue code number")
+    public void enterCustomProcedueCodeNumber() throws InterruptedException {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        WebElement field = ten.until(ExpectedConditions.elementToBeClickable(By.id("id_customProcedureCodeNum")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", field);
+        field.sendKeys(String.valueOf(timestamp.getTime()));
+        Thread.sleep(900);
+    }
+
+    @Then("Fill in use by field {string}")
+    public void fillInUseByField(String arg0) throws InterruptedException {
+        WebElement field = ten.until(ExpectedConditions.elementToBeClickable(By.id("id_forExclusiveUseBy")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", field);
+        field.sendKeys(arg0);
+        Thread.sleep(900);
+    }
+
+    @Then("Give place of use {string}")
+    public void givePlaceOfUse(String arg0) throws InterruptedException {
+        WebElement field = ten.until(ExpectedConditions.elementToBeClickable(By.id("id_placeOfUse")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", field);
+        field.sendKeys(arg0);
+        Thread.sleep(900);
+    }
+
+    @Then("Give physical address {string}")
+    public void givePhysicalAddress(String arg0) throws InterruptedException {
+        WebElement field = ten.until(ExpectedConditions.elementToBeClickable(By.id("id_physicalAddress")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", field);
+        field.sendKeys(arg0);
+        Thread.sleep(900);
+    }
+
+
+    @Then("Enter processing fees and receipt number")
+    public void enterProcessingFeesAndReceiptNumber() throws InterruptedException {
+        WebElement amount = ten.until(ExpectedConditions.elementToBeClickable(By.id("id_amountPaid")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", amount);
+        amount.sendKeys("10000");
+        Thread.sleep(900);
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        WebElement receipt = ten.until(ExpectedConditions.elementToBeClickable(By.id("id_recieptNumber")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", receipt);
+        receipt.sendKeys(String.valueOf(timestamp.getTime()));
+        Thread.sleep(900);
+    }
+
+    @Then("Enter bill of quantity surveyor details")
+    public void enterBillOfQuantitySurveyorDetails() throws InterruptedException {
+        driver.findElement(By.id("id_quantitySurveyorName")).sendKeys("DR Jane Wangare");
+        Thread.sleep(900);
+        driver.findElement(By.id("id_qualifications")).sendKeys("Accountant");
+        Thread.sleep(900);
+        driver.findElement(By.id("id_postalAddress")).sendKeys("Kenema,  Kenema,  East,  Sierra Leone");
+        Thread.sleep(900);
+        driver.findElement(By.id("id_contactNumber")).sendKeys("+254707338839");
+        Thread.sleep(900);
+        driver.findElement(By.id("id_emailAddress")).sendKeys("wangare@accounting.com");
+        Thread.sleep(900);
+
+    }
+
+    @Then("Proceed to attachment details screen")
+    public void proceedToAttachmentDetailsScreen() {
+        driver.findElement(By.xpath("//*[@id=\"id_vat5_certificateForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+    }
+
+    @Then("Enter attachment details for GST \\(portal)")
+    public void enterAttachmentDetailsForGSTPortal() throws InterruptedException {
+        WebElement dropdown = sixty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_attachmentForm\"]/div/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", dropdown);
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//li[span='Letter from Quantity Surveyor certifying ST14 Application']")).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"id_reference\"]")).sendKeys(getRandom(8));
+        Thread.sleep(1000);
+
+        String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "id_doc.png";
+        driver.findElement(By.xpath("//*[@id=\"id_fileChoose\"]/div/div[2]/div/div/div[1]/span/input")).sendKeys(path);
+        Thread.sleep(1000);
+        driver.findElement(By.id("id_notes")).sendKeys("Notes "+getRandom(5));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"id_vat5_certificateForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+    }
+
+    @Then("Enter details of person making the application \\(GST portal)")
+    public void enterDetailsOfPersonMakingTheApplicationGSTPortal() throws InterruptedException {
+        WebElement amount = ten.until(ExpectedConditions.elementToBeClickable(By.id("id_fullName")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", amount);
+        amount.sendKeys("DR Mungai");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_designation")).sendKeys("Doctor");
+        Thread.sleep(900);
+        driver.findElement(By.id("id_identificationNumber")).sendKeys(getRandom(8));
+        Thread.sleep(900);
+        driver.findElement(By.xpath("//*[@id=\"id_vat5_certificateForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+
+    }
+
+    @Then("Submit GST Excemption certificate application \\(Portal)")
+    public void submitGSTExcemptionCertificateApplicationPortal() {
+        WebElement field = fourty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_vat5_certificateForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")));
+        jse.executeScript("arguments[0].click()", field);
+    }
+
+    @Then("Obtain GST Excemption Certificate ref number {string}")
+    public void obtainGSTExcemptionCertificateRefNumber(String success) throws InterruptedException {
+        String message = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + success + "')]"))).getText();
+        //Your GST Certificate request has been submitted successfully. Your reference number is: NRA/BOMTO/CR/000014
+
+        System.out.println(message);
+
+        System.out.println("Certificate Request Case Reference Number is " +message.substring(88));
+        sharedatastep.PortalREF = message.substring(88);
+        Thread.sleep(1000);
+    }
 }
 
 
