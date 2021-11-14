@@ -623,8 +623,8 @@ public class stepDefinitions extends BaseClass {
 
     }
 
-    @Then("Select Certificate type {string}")
-    public void selectCertificateType(String arg0) throws InterruptedException {
+    @Then("Select Certificate type {string} and transaction type {string}")
+    public void selectCertificateTypeAndTransactionType(String arg0, String arg1) throws InterruptedException {
         Thread.sleep(3000);
         WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", certDropDown);
@@ -634,7 +634,7 @@ public class stepDefinitions extends BaseClass {
         WebElement certcat = twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[2]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", certcat);
         Thread.sleep(1000);
-        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='Change of ownership of a company.']"))).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg1+"']"))).click();
         Thread.sleep(1000);
         driver.findElement(By.id("btnContinue")).click();
     }
@@ -1001,6 +1001,190 @@ public class stepDefinitions extends BaseClass {
         System.out.println("Certificate Request Case Reference Number is " +message.substring(88));
         sharedatastep.PortalREF = message.substring(88);
         Thread.sleep(1000);
+    }
+
+    @Then("Select Withholding Tax Exemption Certificate Application certificate {string}")
+    public void selectWithholdingTaxExemptionCertificateApplicationCertificate(String cert) throws InterruptedException {
+        Thread.sleep(3000);
+        WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", certDropDown);
+        Thread.sleep(1000);
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+cert+"']"))).click();
+        Thread.sleep(1000);
+        driver.findElement(By.id("btnContinue")).click();
+    }
+
+    @Then("Select nature of income as {string}")
+    public void selectNatureOfIncomeAs(String arg0) throws InterruptedException {
+        Thread.sleep(3000);
+        WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_whtec_exemptionDetailsForm\"]/div[1]/div/fieldset/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", certDropDown);
+        Thread.sleep(1000);
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg0+"']"))).click();
+        Thread.sleep(1000);
+    }
+
+    @Then("Type description of nature of income")
+    public void typeDescriptionOfNatureOfIncome() {
+        driver.findElement(By.id("id_description")).sendKeys("Test ten "+getRandom(6));
+    }
+
+
+    @Then("Select reason for applying excemption as {string} and click next")
+    public void selectReasonForApplyingExcemptionAsAndClickNext(String arg0) throws InterruptedException {
+        Thread.sleep(1000);
+        WebElement certDropDown = driver.findElement(By.xpath("//*[@id=\"id_whtec_exemptionDetailsForm\"]/div[1]/div/fieldset/tb-dropdown-with-othertext/div/div[2]/p-dropdown/div/div[3]"));
+        jse.executeScript("arguments[0].click()", certDropDown);
+        Thread.sleep(1000);
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg0+"']"))).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"id_whtecCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+    }
+
+    @Then("Enter attachment details for WHT excemption")
+    public void enterAttachmentDetailsForWHTExcemption() throws InterruptedException {
+        WebElement dropdown = sixty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_attachmentForm\"]/div/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", dropdown);
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//li[span='Bilateral Agreement between Govts']")).click();
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"id_reference\"]")).sendKeys(getRandom(8));
+        Thread.sleep(1000);
+
+        String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "id_doc.png";
+        driver.findElement(By.xpath("//*[@id=\"id_fileChoose\"]/div/div[2]/div/div/div[1]/span/input")).sendKeys(path);
+        Thread.sleep(1000);
+        driver.findElement(By.id("id_notes")).sendKeys("Notes "+getRandom(5));
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("//*[@id=\"id_whtecCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+    }
+
+    @Then("Enter details of person making the application \\(WHT Excemption portal)")
+    public void enterDetailsOfPersonMakingTheApplicationWHTExcemptionPortal() throws InterruptedException {
+        WebElement tinField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_declarantName")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", tinField);
+        tinField.sendKeys("Margie Wambui");
+        Thread.sleep(900);
+
+        WebElement nameField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_designation")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", nameField);
+        nameField.sendKeys("Doctor");
+        Thread.sleep(900);
+
+        driver.findElement(By.xpath("//*[@id=\"id_whtecCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+    }
+
+    @Then("Submit WHT excemption certificate application")
+    public void submitWHTExcemptionCertificateApplication() {
+        WebElement field = fourty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_whtecCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")));
+        jse.executeScript("arguments[0].click()", field);
+    }
+
+    @Then("Obtain WHT Excemption Certificate ref number {string}")
+    public void obtainWHTExcemptionCertificateRefNumber(String success) throws InterruptedException {
+        String message = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + success + "')]"))).getText();
+        //Your WHTEC Certificate request has been submitted successfully. Your reference number is: NRA/BOMTO/CR/000661
+
+        System.out.println(message);
+
+        System.out.println("Certificate Request Case Reference Number is " +message.substring(90));
+        sharedatastep.PortalREF = message.substring(90);
+        Thread.sleep(1000);
+    }
+
+    @Then("Enter transaction and assessment details {string}")
+    public void enterTransactionAndAssessmentDetails(String arg0) throws InterruptedException {
+        WebElement tinField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_description")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", tinField);
+        tinField.sendKeys("Test details - "+getRandom(5));
+        Thread.sleep(900);
+
+        WebElement nameField = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_assessment")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", nameField);
+        nameField.sendKeys(arg0);
+        Thread.sleep(900);
+
+        driver.findElement(By.xpath("//*[@id=\"id_tccCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+    }
+
+    @Then("Enter transfer details with tin {string}")
+    public void enterTransferDetailsWithTin(String tin) throws InterruptedException {
+        WebElement ref = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_returnRefNumber")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", ref);
+        ref.sendKeys(getRandom(5));
+        Thread.sleep(900);
+
+        WebElement assetNumber = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_assetNumber")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", assetNumber);
+        assetNumber.sendKeys(getRandom(5));
+        Thread.sleep(900);
+
+        WebElement holderName = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_leaseHolderName")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", holderName);
+        holderName.sendKeys("Margie Wambui");
+        Thread.sleep(900);
+
+        WebElement titleNumber = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_titleNumber")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", titleNumber);
+        titleNumber.sendKeys(getRandom(5));
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_plotNumber")).sendKeys(getRandom(5));
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_location")).sendKeys(getRandom(5));
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_physicalAddress")).sendKeys(getRandom(5));
+        Thread.sleep(900);
+
+        WebElement dropdown = sixty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_tcc_transferDetailsForm\"]/div/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", dropdown);
+        Thread.sleep(2000);
+        driver.findElement(By.xpath("//li[span='Cafeteria']")).click();
+        Thread.sleep(1000);
+
+        driver.findElement(By.id("id_tin")).sendKeys(tin);
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_taxpayerName")).sendKeys("DR Maxipain DAOhst");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_contactNumber")).sendKeys("254768998856");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_email")).sendKeys("margiewambui11@gmail.com");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_postalAddress")).sendKeys("Kenema,  Kenema,  East,  Sierra Leone");
+        Thread.sleep(900);
+
+        driver.findElement(By.xpath("//*[@id=\"undefined\"]")).sendKeys("2013");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_costPrice")).sendKeys("20000");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_costOfImprovements")).sendKeys("20000");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_sellingPrice")).sendKeys("50000");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_valuation")).sendKeys("50000");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_capitalGainLoss")).sendKeys("0");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_taxPaid")).sendKeys("0");
+        Thread.sleep(900);
+
+        driver.findElement(By.id("id_RecieptNumber")).sendKeys(getRandom(5));
+        Thread.sleep(900);
+
+        driver.findElement(By.xpath("//*[@id=\"id_tccCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
+
     }
 }
 

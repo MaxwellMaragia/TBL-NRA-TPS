@@ -4,11 +4,10 @@ Feature: [SUC:29-01]-Request For Certificates-Portal
     Given User navigates to portal
     Then Enters the username "1000056406" and password "Password@123" to login to portal
 
-
   @SUC:29-01 @UAT_N_M29_29-01-07
-  Scenario: UAT_N_M29_29-01-07-To Verify the process of creating certificate Request in Portal (Tax Clearance Certificate Application)
+  Scenario: UAT_N_M29_29-01-07-To Verify the process of creating certificate Request in Portal (Tax Clearance Certificate Application - Change of ownership of a company)
     And Navigate to my tax > Certificate request
-    Then Select Certificate type "Tax Clearance Certificate Application"
+    Then Select Certificate type "Tax Clearance Certificate Application" and transaction type "Change of ownership of a company."
     Then Enter tin as "1000059405"
     And Taxpayer name as "DR Maxipain MDsyL"
     And Trading name as "Codei Systems"
@@ -26,7 +25,23 @@ Feature: [SUC:29-01]-Request For Certificates-Portal
     Then Enter request number
     Then Verify case request status "Approved"
 
+
   @SUC:29-01 @UAT_N_M29_29-01-07 @boom
+  Scenario: UAT_N_M29_29-01-07-To Verify the process of creating certificate Request in Portal (Tax Clearance Certificate Application - Transfer of land and building)
+    And Navigate to my tax > Certificate request
+    Then Select Certificate type "Tax Clearance Certificate Application" and transaction type "Transfer of land and building"
+    Then Enter transaction and assessment details "11/2021"
+    Then Enter transfer details with tin "1000070034"
+    Then Enter attachment details (Portal) "Cost of Improvement Details"
+    Then Submit portal Tax Clearance Certificate Application
+    Then Verify portal success message "Your TCC Certificate request has been submitted successfully. Your reference number is:"
+    Then Obtain Tax Clearance ref number "Your TCC Certificate request has been submitted successfully. Your reference number is:"
+    Then Navigate to my tax > View Certificate Request Status
+    Then Enter request number
+    Then Verify case request status "Approved"
+
+
+  @SUC:29-01 @UAT_N_M29_29-01-07
   Scenario: UAT_N_M29_29-01-07-To Verify the process of creating certificate Request in Portal (GST Exempt Tax Certificate Application)
     And Navigate to my tax > Certificate request
     Then Select GST Exempt Tax Certificate Application certificate "GST Exempt Tax Certificate Application"
@@ -50,3 +65,21 @@ Feature: [SUC:29-01]-Request For Certificates-Portal
     Then Navigate to my tax > View Certificate Request Status
     Then Enter request number
     Then Verify case request status "Approved"
+
+  @SUC:29-01 @UAT_N_M29_29-01-07
+  Scenario: UAT_N_M29_29-01-07-To Verify the process of creating certificate Request in Portal (Withholding Tax Exemption Certificate Application)
+    And Navigate to my tax > Certificate request
+    Then Select Withholding Tax Exemption Certificate Application certificate "Withholding Tax Exemption Certificate Application"
+    Then Select nature of income as "Actuarial fees"
+    Then Type description of nature of income
+    Then Select reason for applying excemption as "Bilateral Agreement between Govts" and click next
+    Then Enter attachment details for WHT excemption
+    Then Enter details of person making the application (WHT Excemption portal)
+    Then Submit WHT excemption certificate application
+    Then Verify portal success message "Your WHTEC Certificate request has been submitted successfully. Your reference number is:"
+    Then Obtain WHT Excemption Certificate ref number "Your WHTEC Certificate request has been submitted successfully. Your reference number is:"
+    Then Navigate to my tax > View Certificate Request Status
+    Then Enter request number
+    Then Verify case request status "Approved"
+
+
