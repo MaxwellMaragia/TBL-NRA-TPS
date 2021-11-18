@@ -35,7 +35,7 @@ Feature: [SUC:29-01]-Request For Certificates-BackOffice
     Then Verify error message "Certificate Type: Validation Error: Value is required."
     Then Select certificate "GST Exempt Tax Certificate Application"
     Then Click next button
-    Then Find purchaser details with tin "1000066411"
+    Then Find purchaser details with tin "1000070824"
     Then Find suppliers details with tin "1000065200"
     Then Enter GST Excemptions for project number
     Then Add GST Exempt Project Details
@@ -58,7 +58,7 @@ Feature: [SUC:29-01]-Request For Certificates-BackOffice
     Then Verify status "Approved"
 
   @SUC:29-01 @UAT_N_M29_29-01-01
-  Scenario: UAT_N_M29_29-01-01-To Verify the process of creating certificate Request in BackOffice (Tax Clearance Certificate Application)
+  Scenario: UAT_N_M29_29-01-01-To Verify the process of creating certificate Request in BackOffice (Tax Clearance Certificate Application - Change of ownership of a company)
     And Click on Taxpayer services > Certificate Types > Create certificate request
     Then Click next button
     Then Verify error message "Certificate Type: Validation Error: Value is required."
@@ -67,7 +67,70 @@ Feature: [SUC:29-01]-Request For Certificates-BackOffice
     Then Find tin for tax clearance "1000069222"
     Then Enter transaction details "Change of ownership of a company."
     Then Enter period of assessment month "10" and year "2021"
-    Then Enter attachment details
+    Then Enter attachment details "Application Letter"
+    Then Enter details of person making the application
+    Then Submit certificate request application
+    Then Verify success message "Processing Completed - Reference Number -"
+    Then Obtain Certificate Request ARN "Processing Completed - Reference Number -"
+    And Click on Taxpayer services > Certificate Types > Track request status
+    Then Enter ref number
+    Then Verify status "Approved"
+
+  @SUC:29-01 @UAT_N_M29_29-01-01
+  Scenario: UAT_N_M29_29-01-01-To Verify the process of creating certificate Request in BackOffice (Tax Clearance Certificate Application - Change of ownership of a company)
+    And Click on Taxpayer services > Certificate Types > Create certificate request
+    Then Click next button
+    Then Verify error message "Certificate Type: Validation Error: Value is required."
+    Then Select certificate "Tax Clearance Certificate Application"
+    Then Click next button
+    Then Find tin for tax clearance "1000069222"
+    Then Enter transaction details "Change of ownership of a company."
+    Then Enter period of assessment month "10" and year "2021"
+    Then Enter attachment details "Application Letter"
+    Then Enter details of person making the application
+    Then Submit certificate request application
+    Then Verify success message "Processing Completed - Reference Number -"
+    Then Obtain Certificate Request ARN "Processing Completed - Reference Number -"
+    And Click on Taxpayer services > Certificate Types > Track request status
+    Then Enter ref number
+    Then Verify status "Approved"
+
+  @SUC:29-01 @UAT_N_M29_29-01-01
+  Scenario: UAT_N_M29_29-01-01-To Verify the process of creating certificate Request in BackOffice (Tax Clearance Certificate Application - Externalisation of funds to non-resident service providers whose source is deemed to be Sierra Leone.)
+    And Click on Taxpayer services > Certificate Types > Create certificate request
+    Then Click next button
+    Then Verify error message "Certificate Type: Validation Error: Value is required."
+    Then Select certificate "Tax Clearance Certificate Application"
+    Then Click next button
+    Then Find tin for tax clearance "1000069222"
+    Then Enter transaction details "Externalisation of funds to non-resident service providers whose source is deemed to be Sierra Leone."
+    Then Enter period of assessment month "10" and year "2021"
+    Then Enter remittance details with recipient tin "1000062805"
+    Then Enter attachment details "Details of the contracts agreements"
+    Then Enter details of person making the application
+    Then Submit certificate request application
+    Then Verify success message "Processing Completed - Reference Number -"
+    Then Obtain Certificate Request ARN "Processing Completed - Reference Number -"
+    And Click on Taxpayer services > Certificate Types > Track request status
+    Then Enter ref number
+    Then Verify status "Approved"
+
+  @SUC:29-01 @UAT_N_M29_29-01-01 @boom
+  Scenario: UAT_N_M29_29-01-01-To Verify the process of creating certificate Request in BackOffice (Tax Clearance Certificate Application - Transfer of land and building.)
+    And Click on Taxpayer services > Certificate Types > Create certificate request
+    Then Click next button
+    Then Verify error message "Certificate Type: Validation Error: Value is required."
+    Then Select certificate "Tax Clearance Certificate Application"
+    Then Click next button
+    #tin must have CGT taxtype and property listed
+    Then Find tin for tax clearance "1000070621"
+    Then Enter transaction details "Transfer of land and building"
+    Then Enter period of assessment month "11" and year "2021"
+    #asset number must be correct
+    Then Land and building transfer details with correct asset number
+    Then Enter transferee details with tin "1000056406"
+    Then Enter details of property
+    Then Enter attachment details "Cost of Improvement Details"
     Then Enter details of person making the application
     Then Submit certificate request application
     Then Verify success message "Processing Completed - Reference Number -"
@@ -104,7 +167,7 @@ Feature: [SUC:29-01]-Request For Certificates-BackOffice
     Then Find tin for tax clearance "1000062805"
     Then Enter transaction details "Change of ownership of a company."
     Then Enter period of assessment month "10" and year "2021"
-    Then Enter attachment details
+    Then Enter attachment details "Application Letter"
     Then Enter details of person making the application
     Then Submit certificate request application
     Then Verify success message "Application Rejected - Reference Number -"

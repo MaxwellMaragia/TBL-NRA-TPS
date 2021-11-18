@@ -2,7 +2,8 @@ Feature: [SUC:29-01]-Request For Certificates-Portal
 
   Background:
     Given User navigates to portal
-    Then Enters the username "1000056406" and password "Password@123" to login to portal
+#    Then Enters the username "1000056406" and password "Password@123" to login to portal
+    Then Enters the username "1000070621" and password "Password@123" to login to portal
 
   @SUC:29-01 @UAT_N_M29_29-01-07
   Scenario: UAT_N_M29_29-01-07-To Verify the process of creating certificate Request in Portal (Tax Clearance Certificate Application - Change of ownership of a company)
@@ -25,8 +26,22 @@ Feature: [SUC:29-01]-Request For Certificates-Portal
     Then Enter request number
     Then Verify case request status "Approved"
 
+  @SUC:29-01 @UAT_N_M29_29-01-07
+  Scenario: UAT_N_M29_29-01-07-To Verify the process of creating certificate Request in Portal (Tax Clearance Certificate Application - Externalisation of funds to non-resident service providers whose source is deemed to be Sierra Leone)
+    And Navigate to my tax > Certificate request
+    Then Select Certificate type "Tax Clearance Certificate Application" and transaction type "Externalisation of funds to non-resident service providers whose source is deemed to be Sierra Leone."
+    Then Enter transaction and assessment details "11/2021"
+    Then Enter remittance details
+    Then Enter attachment details (Portal) "Details of the contracts agreements"
+    Then Submit portal Tax Clearance Certificate Application
+    Then Verify portal success message "Your TCC Certificate request has been submitted successfully. Your reference number is:"
+    Then Obtain Tax Clearance ref number "Your TCC Certificate request has been submitted successfully. Your reference number is:"
+    Then Navigate to my tax > View Certificate Request Status
+    Then Enter request number
+    Then Verify case request status "Approved"
 
-  @SUC:29-01 @UAT_N_M29_29-01-07 @boom
+
+  @SUC:29-01 @UAT_N_M29_29-01-07
   Scenario: UAT_N_M29_29-01-07-To Verify the process of creating certificate Request in Portal (Tax Clearance Certificate Application - Transfer of land and building)
     And Navigate to my tax > Certificate request
     Then Select Certificate type "Tax Clearance Certificate Application" and transaction type "Transfer of land and building"
