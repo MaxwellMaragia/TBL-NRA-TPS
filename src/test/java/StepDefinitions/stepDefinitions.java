@@ -88,7 +88,7 @@ public class stepDefinitions extends BaseClass {
         Pro.load(fls);
         driver = BaseClass.getDriver();
         actions = new Actions(driver);
-        jse = (JavascriptExecutor)driver;
+        jse = (JavascriptExecutor) driver;
         five = new WebDriverWait(driver, 5);
         ten = new WebDriverWait(driver, 10);
         fifteen = new WebDriverWait(driver, 15);
@@ -139,7 +139,7 @@ public class stepDefinitions extends BaseClass {
         driver.findElement(By.id("Logout")).click();
     }
 
-    public void switchToFrameBackoffice(){
+    public void switchToFrameBackoffice() {
         WebElement frame = thirty.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("iframe")));
         driver.switchTo().frame(frame);
     }
@@ -181,7 +181,7 @@ public class stepDefinitions extends BaseClass {
 
     @Then("^Verify no data is found in table$")
     public void verify_no_data_is_found_in_table() throws Throwable {
-        WebDriverWait wait = new WebDriverWait(driver,30);
+        WebDriverWait wait = new WebDriverWait(driver, 30);
         WebElement noDataXpath = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//td[contains(text(),'No record(s) found.')]")));
         if (noDataXpath.isDisplayed()) {
             Assert.assertTrue("No data found in table", true);
@@ -352,7 +352,7 @@ public class stepDefinitions extends BaseClass {
     @Then("Enter details of person making application")
     public void enterDetailsOfPersonMakingApplication() throws InterruptedException {
         Thread.sleep(1500);
-        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("GstExemptTaxCertificate:FullName"))).sendKeys("Margie "+getRandom(5));
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.id("GstExemptTaxCertificate:FullName"))).sendKeys("Margie " + getRandom(5));
         Thread.sleep(1500);
         driver.findElement(By.id("GstExemptTaxCertificate:Designation")).sendKeys("Software developer");
         Thread.sleep(1500);
@@ -366,11 +366,11 @@ public class stepDefinitions extends BaseClass {
 
     @Then("Obtain GST Excemption ARN {string}")
     public void obtainGSTExcemptionARN(String success) throws InterruptedException {
-        String text  = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'"+success+"')]"))).getText();
+        String text = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'" + success + "')]"))).getText();
         //Processing Completed - Reference Number - NRA/BOMTO/CR/000009
         System.out.println(text);
 
-        System.out.println("Certificate Request Case Reference Number is " +text.substring(42));
+        System.out.println("Certificate Request Case Reference Number is " + text.substring(42));
         sharedatastep.REF = text.substring(42);
         Thread.sleep(2000);
     }
@@ -400,7 +400,7 @@ public class stepDefinitions extends BaseClass {
 
     @Then("Enter random FAQ and answer")
     public void enterRandomFAQAndAnswer() {
-        sharedatastep.FAQ = "How to file returns for "+getRandom(6)+ " Taxtype";
+        sharedatastep.FAQ = "How to file returns for " + getRandom(6) + " Taxtype";
         driver.findElement(By.id("FaqForm:FAQ")).sendKeys(sharedatastep.FAQ);
         driver.findElement(By.id("FaqForm:Answer")).sendKeys(getRandom(8));
         System.out.println("FAQ saved is");
@@ -438,7 +438,7 @@ public class stepDefinitions extends BaseClass {
 
     @Then("Verify FAQ found and displayed in table")
     public void verifyFAQFoundAndDisplayedInTable() {
-        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'"+sharedatastep.FAQ+"')]"))).isDisplayed();
+        twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[contains(text(),'" + sharedatastep.FAQ + "')]"))).isDisplayed();
     }
 
     @Then("Click edit button")
@@ -485,7 +485,7 @@ public class stepDefinitions extends BaseClass {
     public void enterPeriodOfAssessmentMonthAndYear(String month, String year) throws InterruptedException {
         Thread.sleep(2000);
         WebElement dateField = driver.findElement(By.id("TaxClearanceCertificate:periodOfAssessment"));
-        dateField.sendKeys(month+year);
+        dateField.sendKeys(month + year);
         Thread.sleep(1000);
 
     }
@@ -495,7 +495,7 @@ public class stepDefinitions extends BaseClass {
         Thread.sleep(1000);
         driver.findElement(By.xpath("//*[@id=\"TaxClearanceCertificate:documentType\"]/div[3]")).click();
         Thread.sleep(1500);
-        driver.findElement(By.xpath("//li[contains(text(),'"+attachment+"')]")).click();
+        driver.findElement(By.xpath("//li[contains(text(),'" + attachment + "')]")).click();
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         driver.findElement(By.id("TaxClearanceCertificate:documentNameNumber")).sendKeys(String.valueOf(timestamp.getTime()));
@@ -521,11 +521,11 @@ public class stepDefinitions extends BaseClass {
 
     @Then("Obtain Certificate Request ARN {string}")
     public void obtainCertificateRequestARN(String success) throws InterruptedException {
-        String text  = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'"+success+"')]"))).getText();
+        String text = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(text(),'" + success + "')]"))).getText();
         //Processing Completed - Reference Number - NRA/BOMTO/CR/000009
         System.out.println(text);
 
-        System.out.println("Certificate Request Case Reference Number is " +text.substring(42));
+        System.out.println("Certificate Request Case Reference Number is " + text.substring(42));
         sharedatastep.REF = text.substring(42);
         Thread.sleep(2000);
     }
@@ -622,7 +622,7 @@ public class stepDefinitions extends BaseClass {
     public void navigateToMyTaxCertificateRequest() throws InterruptedException {
         WebElement mytax = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnMyTax")));
         jse.executeScript("arguments[0].click()", mytax);
-        WebElement certRequest =fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnCertRequest")));
+        WebElement certRequest = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnCertRequest")));
         jse.executeScript("arguments[0].click()", certRequest);
 
     }
@@ -633,12 +633,12 @@ public class stepDefinitions extends BaseClass {
         WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", certDropDown);
         Thread.sleep(1000);
-        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg0+"']"))).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='" + arg0 + "']"))).click();
 
         WebElement certcat = twenty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[2]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", certcat);
         Thread.sleep(1000);
-        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg1+"']"))).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='" + arg1 + "']"))).click();
         Thread.sleep(1000);
         driver.findElement(By.id("btnContinue")).click();
     }
@@ -713,14 +713,14 @@ public class stepDefinitions extends BaseClass {
         WebElement dropdown = sixty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"id_attachmentForm\"]/div/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", dropdown);
         Thread.sleep(1000);
-        driver.findElement(By.xpath("//li[span='"+type+"']")).click();
+        driver.findElement(By.xpath("//li[span='" + type + "']")).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath("//*[@id=\"id_reference\"]")).sendKeys(getRandom(8));
         Thread.sleep(1000);
         String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "id_doc.png";
         driver.findElement(By.xpath("//*[@id=\"id_fileChoose\"]/div/div[2]/div/div/div[1]/span/input")).sendKeys(path);
         Thread.sleep(1000);
-        driver.findElement(By.id("id_notes")).sendKeys("Notes "+getRandom(5));
+        driver.findElement(By.id("id_notes")).sendKeys("Notes " + getRandom(5));
         Thread.sleep(1000);
         driver.findElement(By.xpath("//*[@id=\"id_tccCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
     }
@@ -745,7 +745,7 @@ public class stepDefinitions extends BaseClass {
 
         System.out.println(message);
 
-        System.out.println("Certificate Request Case Reference Number is " +message.substring(88));
+        System.out.println("Certificate Request Case Reference Number is " + message.substring(88));
         sharedatastep.PortalREF = message.substring(88);
         Thread.sleep(1000);
     }
@@ -754,7 +754,7 @@ public class stepDefinitions extends BaseClass {
     public void navigateToMyTaxViewCertificateRequestStatus() {
         WebElement mytax = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnMyTax")));
         jse.executeScript("arguments[0].click()", mytax);
-        WebElement certRequest =fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnCertRequestStatus")));
+        WebElement certRequest = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnCertRequestStatus")));
         jse.executeScript("arguments[0].click()", certRequest);
     }
 
@@ -777,7 +777,7 @@ public class stepDefinitions extends BaseClass {
     public void navigateToMySupportFAQ() {
         WebElement support = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnSupportToggle")));
         jse.executeScript("arguments[0].click()", support);
-        WebElement faq =fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_linkFaq")));
+        WebElement faq = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_linkFaq")));
         jse.executeScript("arguments[0].click()", faq);
     }
 
@@ -821,7 +821,7 @@ public class stepDefinitions extends BaseClass {
         WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", certDropDown);
         Thread.sleep(1000);
-        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+cert+"']"))).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='" + cert + "']"))).click();
         Thread.sleep(1000);
         driver.findElement(By.id("btnContinue")).click();
     }
@@ -969,7 +969,7 @@ public class stepDefinitions extends BaseClass {
         String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "id_doc.png";
         driver.findElement(By.xpath("//*[@id=\"id_fileChoose\"]/div/div[2]/div/div/div[1]/span/input")).sendKeys(path);
         Thread.sleep(1000);
-        driver.findElement(By.id("id_notes")).sendKeys("Notes "+getRandom(5));
+        driver.findElement(By.id("id_notes")).sendKeys("Notes " + getRandom(5));
         Thread.sleep(1000);
         driver.findElement(By.xpath("//*[@id=\"id_vat5_certificateForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
     }
@@ -1002,7 +1002,7 @@ public class stepDefinitions extends BaseClass {
 
         System.out.println(message);
 
-        System.out.println("Certificate Request Case Reference Number is " +message.substring(88));
+        System.out.println("Certificate Request Case Reference Number is " + message.substring(88));
         sharedatastep.PortalREF = message.substring(88);
         Thread.sleep(1000);
     }
@@ -1013,7 +1013,7 @@ public class stepDefinitions extends BaseClass {
         WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_certificateSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", certDropDown);
         Thread.sleep(1000);
-        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+cert+"']"))).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='" + cert + "']"))).click();
         Thread.sleep(1000);
         driver.findElement(By.id("btnContinue")).click();
     }
@@ -1024,13 +1024,13 @@ public class stepDefinitions extends BaseClass {
         WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_whtec_exemptionDetailsForm\"]/div[1]/div/fieldset/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", certDropDown);
         Thread.sleep(1000);
-        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg0+"']"))).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='" + arg0 + "']"))).click();
         Thread.sleep(1000);
     }
 
     @Then("Type description of nature of income")
     public void typeDescriptionOfNatureOfIncome() {
-        driver.findElement(By.id("id_description")).sendKeys("Test ten "+getRandom(6));
+        driver.findElement(By.id("id_description")).sendKeys("Test ten " + getRandom(6));
     }
 
 
@@ -1040,7 +1040,7 @@ public class stepDefinitions extends BaseClass {
         WebElement certDropDown = driver.findElement(By.xpath("//*[@id=\"id_whtec_exemptionDetailsForm\"]/div[1]/div/fieldset/tb-dropdown-with-othertext/div/div[2]/p-dropdown/div/div[3]"));
         jse.executeScript("arguments[0].click()", certDropDown);
         Thread.sleep(1000);
-        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg0+"']"))).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='" + arg0 + "']"))).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath("//*[@id=\"id_whtecCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
     }
@@ -1058,7 +1058,7 @@ public class stepDefinitions extends BaseClass {
         String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "id_doc.png";
         driver.findElement(By.xpath("//*[@id=\"id_fileChoose\"]/div/div[2]/div/div/div[1]/span/input")).sendKeys(path);
         Thread.sleep(1000);
-        driver.findElement(By.id("id_notes")).sendKeys("Notes "+getRandom(5));
+        driver.findElement(By.id("id_notes")).sendKeys("Notes " + getRandom(5));
         Thread.sleep(1000);
         driver.findElement(By.xpath("//*[@id=\"id_whtecCertForm\"]/form-wizard/div/div/div[5]/div/div[3]/div/button[2]")).click();
     }
@@ -1091,7 +1091,7 @@ public class stepDefinitions extends BaseClass {
 
         System.out.println(message);
 
-        System.out.println("Certificate Request Case Reference Number is " +message.substring(90));
+        System.out.println("Certificate Request Case Reference Number is " + message.substring(90));
         sharedatastep.PortalREF = message.substring(90);
         Thread.sleep(1000);
     }
@@ -1100,7 +1100,7 @@ public class stepDefinitions extends BaseClass {
     public void enterTransactionAndAssessmentDetails(String arg0) throws InterruptedException {
         WebElement field1 = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_description")));
         jse.executeScript("arguments[0].scrollIntoView(true);", field1);
-        field1.sendKeys("Test details - "+getRandom(5));
+        field1.sendKeys("Test details - " + getRandom(5));
         Thread.sleep(900);
 
         WebElement field2 = fifty.until(ExpectedConditions.elementToBeClickable(By.id("id_assessment")));
@@ -1331,19 +1331,32 @@ public class stepDefinitions extends BaseClass {
     public void navigateToMyTaxGeneralServiceRequest() {
         WebElement mytax = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnMyTax")));
         jse.executeScript("arguments[0].click()", mytax);
-        WebElement certRequest =fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnGeneralServiceRequest")));
+        WebElement certRequest = fourty.until(ExpectedConditions.elementToBeClickable(By.id("id_btnGeneralServiceRequest")));
         jse.executeScript("arguments[0].click()", certRequest);
     }
 
     @Then("Select request type {string}")
     public void selectRequestType(String arg0) throws InterruptedException {
         Thread.sleep(1000);
-        WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_requestSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        WebElement certDropDown = twohundred.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_requestSelectForm\"]/div[1]/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", certDropDown);
         Thread.sleep(1000);
-        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg0+"']"))).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='" + arg0 + "']"))).click();
         Thread.sleep(800);
         driver.findElement(By.id("btnNext")).click();
+    }
+
+    @Then("Enter subject and details of request")
+    public void enterSubjectAndDetailsOfRequest() throws InterruptedException {
+        WebElement field1 = onehundred.until(ExpectedConditions.elementToBeClickable(By.id("id_subject")));
+        jse.executeScript("arguments[0].scrollIntoView(true);", field1);
+        field1.sendKeys("SUBJECT : " + getRandom(7));
+        Thread.sleep(900);
+
+        WebElement field2 = driver.findElement(By.id("id_requestDetails"));
+        jse.executeScript("arguments[0].scrollIntoView(true);", field2);
+        field2.sendKeys("DETAILS : " + getRandom(7));
+        Thread.sleep(900);
     }
 
     @Then("Select return type for amendment as {string}")
@@ -1352,7 +1365,17 @@ public class stepDefinitions extends BaseClass {
         WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_amendmentTaxReturnForm\"]/div[2]/div/div/fieldset/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
         jse.executeScript("arguments[0].click()", certDropDown);
         Thread.sleep(1000);
-        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='"+arg0+"']"))).click();
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='" + arg0 + "']"))).click();
+        Thread.sleep(800);
+    }
+
+    @Then("Select return type for cancellation as {string}")
+    public void selectReturnTypeForCancellationAs(String arg0) throws InterruptedException {
+        Thread.sleep(1000);
+        WebElement certDropDown = sixty.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@id=\"id_cancelTaxReturnForm\"]/div[2]/div/div/fieldset/tb-dropdown/div/div[2]/p-dropdown/div/div[3]")));
+        jse.executeScript("arguments[0].click()", certDropDown);
+        Thread.sleep(1000);
+        fifty.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[span='" + arg0 + "']"))).click();
         Thread.sleep(800);
     }
 
@@ -1360,7 +1383,14 @@ public class stepDefinitions extends BaseClass {
     public void enterPeriodForAmendmentAsAndReasonsForApplyingForAmendment(String arg0) throws InterruptedException {
         driver.findElement(By.id("id_period")).sendKeys(arg0);
         Thread.sleep(1000);
-        driver.findElement(By.id("id_reasonForAmendment")).sendKeys("Test-"+getRandom(5));
+        driver.findElement(By.id("id_reasonForAmendment")).sendKeys("Test-" + getRandom(5));
+    }
+
+    @Then("Enter period for cancellation as {string} and reasons for applying for amendment")
+    public void enterPeriodForCancellationAsAndReasonsForApplyingForAmendment(String arg0) throws InterruptedException {
+        driver.findElement(By.id("id_period")).sendKeys(arg0);
+        Thread.sleep(1000);
+        driver.findElement(By.id("id_reasonForCancel")).sendKeys("Test-" + getRandom(5));
     }
 
     @Then("Enter attachment details for general service request {string}")
@@ -1369,14 +1399,14 @@ public class stepDefinitions extends BaseClass {
         WebElement dropdown = driver.findElement(By.xpath("//*[@id=\"id_attachmentForm\"]/div/div/tb-dropdown/div/div[2]/p-dropdown/div/div[3]"));
         jse.executeScript("arguments[0].click()", dropdown);
         Thread.sleep(1000);
-        driver.findElement(By.xpath("//li[span='"+type+"']")).click();
+        driver.findElement(By.xpath("//li[span='" + type + "']")).click();
         Thread.sleep(1000);
         driver.findElement(By.xpath("//*[@id=\"id_reference\"]")).sendKeys(getRandom(8));
         Thread.sleep(1000);
         String path = System.getProperty("user.dir") + File.separator + "src\\test\\resources\\" + File.separator + "id_doc.png";
         driver.findElement(By.xpath("//*[@id=\"id_fileChoose\"]/div/div[2]/div/div/div[1]/span/input")).sendKeys(path);
         Thread.sleep(1000);
-        driver.findElement(By.id("id_notes")).sendKeys("Notes "+getRandom(5));
+        driver.findElement(By.id("id_notes")).sendKeys("Notes " + getRandom(5));
         Thread.sleep(1000);
         driver.findElement(By.id("btnSave")).click();
     }
@@ -1391,7 +1421,7 @@ public class stepDefinitions extends BaseClass {
         String message = onehundred.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(), '" + success + "')]"))).getText();
         //Your Service request has been submitted successfully. Your reference number is: TSR/000000703
         System.out.println(message);
-        System.out.println("General Service Request Case Reference Number is " +message.substring(80));
+        System.out.println("General Service Request Case Reference Number is " + message.substring(80));
         sharedatastep.PortalREF = message.substring(80);
         Thread.sleep(1000);
     }
@@ -1451,7 +1481,7 @@ public class stepDefinitions extends BaseClass {
         search.clear();
         Thread.sleep(1000);
 
-        //search.sendKeys("*TSR/000000703");
+        //search.sendKeys("*TSR/000000704");
         search.sendKeys("*"+sharedatastep.PortalREF);
         Thread.sleep(1000);
         search.sendKeys(Keys.ENTER);
@@ -1520,6 +1550,15 @@ public class stepDefinitions extends BaseClass {
         Assert.assertEquals(status, text);
         Thread.sleep(2000);
         driver.switchTo().defaultContent();
+    }
+
+    @Then("Approve general service request application")
+    public void approveGeneralServiceRequestApplication() throws InterruptedException {
+        Thread.sleep(3000);
+
+        driver.findElement(By.id("header_process_tbg_revenueofficerapproval")).click();
+        Actions action = new Actions(driver);
+        action.sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ENTER).perform();
     }
 }
 

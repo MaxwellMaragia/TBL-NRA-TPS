@@ -115,7 +115,7 @@ Feature: [SUC:29-01]-Request For Certificates-BackOffice
     Then Enter ref number
     Then Verify status "Approved"
 
-  @SUC:29-01 @UAT_N_M29_29-01-01 @boom
+  @SUC:29-01 @UAT_N_M29_29-01-01
   Scenario: UAT_N_M29_29-01-01-To Verify the process of creating certificate Request in BackOffice (Tax Clearance Certificate Application - Transfer of land and building.)
     And Click on Taxpayer services > Certificate Types > Create certificate request
     Then Click next button
